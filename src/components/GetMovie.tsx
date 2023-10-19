@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Movie } from "../interfaces/Movie";
+import confetti from "canvas-confetti";
 
 async function getRandomMovie(): Promise<Movie> {
   return fetch(
@@ -17,7 +18,7 @@ async function getRandomMovie(): Promise<Movie> {
 }
 
 function getPartialMovieName(movie: Movie): string {
-  const difficulty = 5;
+  const difficulty = 40;
   const indexes = Array.from({ length: movie.name.length }, (_, i) => i)
     .sort((index) =>
       movie.name[index] === " " ? 1 : Math.random() >= 0.5 ? 1 : -1
@@ -49,6 +50,7 @@ const GetMovie = () => {
     if (guess?.toLocaleLowerCase() === movie!.name.toLocaleLowerCase()) {
       alert("You guessed correctly!");
       setPoints((points) => points + 1);
+      confetti();
     } else {
       alert("You guessed wrong!");
       setLives((lives) => lives - 1);
